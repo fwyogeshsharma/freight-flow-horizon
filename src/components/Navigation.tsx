@@ -20,8 +20,11 @@ const Navigation = () => {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-2">
-              <Truck className="h-8 w-8 text-primary" />
-              <span className="text-xl font-bold text-primary">LogiFlow</span>
+              <img 
+                src="/lovable-uploads/c87cccc8-4a41-4828-aabc-8d6ec84fc323.png" 
+                alt="RollingRadius" 
+                className="h-8 w-auto"
+              />
             </Link>
           </div>
           
