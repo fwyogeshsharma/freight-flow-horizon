@@ -85,23 +85,35 @@ const AdminDashboard: React.FC = () => {
   };
 
   const handleDocumentVerification = async (documentId: string, status: 'verified' | 'rejected', reason?: string) => {
-    const { error } = await supabase
-      .from('kyc_documents')
-      .update({
-        status,
-        verified_by: supabase.auth.getUser()?.data.user?.id,
-        verified_at: new Date().toISOString(),
-        rejection_reason: reason
-      })
-      .eq('id', documentId);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('User not authenticated');
 
-    if (!error) {
+      const { error } = await supabase
+        .from('kyc_documents')
+        .update({
+          status,
+          verified_by: user.id,
+          verified_at: new Date().toISOString(),
+          rejection_reason: reason
+        })
+        .eq('id', documentId);
+
+      if (!error) {
+        toast({
+          title: `Document ${status}`,
+          description: `KYC document has been ${status}.`,
+        });
+        fetchPendingDocuments();
+        fetchStats();
+      }
+    } catch (error) {
+      console.error('Error updating document:', error);
       toast({
-        title: `Document ${status}`,
-        description: `KYC document has been ${status}.`,
+        title: "Error",
+        description: "Failed to update document status.",
+        variant: "destructive",
       });
-      fetchPendingDocuments();
-      fetchStats();
     }
   };
 

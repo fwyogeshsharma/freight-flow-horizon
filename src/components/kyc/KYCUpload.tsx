@@ -58,9 +58,12 @@ const KYCUpload: React.FC<KYCUploadProps> = ({ userRole }) => {
     setUploading(documentType);
     
     try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('User not authenticated');
+
       const fileExt = file.name.split('.').pop();
       const fileName = `${Date.now()}.${fileExt}`;
-      const filePath = `${supabase.auth.getUser()?.data.user?.id}/${fileName}`;
+      const filePath = `${user.id}/${fileName}`;
 
       const { error: uploadError } = await supabase.storage
         .from('kyc-documents')
@@ -75,8 +78,8 @@ const KYCUpload: React.FC<KYCUploadProps> = ({ userRole }) => {
       const { error: dbError } = await supabase
         .from('kyc_documents')
         .upsert({
-          user_id: supabase.auth.getUser()?.data.user?.id,
-          document_type: documentType,
+          user_id: user.id,
+          document_type: documentType as any,
           file_url: publicUrl,
           file_name: file.name,
           status: 'pending'
@@ -86,7 +89,7 @@ const KYCUpload: React.FC<KYCUploadProps> = ({ userRole }) => {
 
       toast({
         title: "Document uploaded successfully",
-        description: `${documentLabels[documentType]} has been uploaded for verification.`,
+        description: `${documentLabels[documentType as keyof typeof documentLabels]} has been uploaded for verification.`,
       });
 
       // Refresh documents list
@@ -104,13 +107,20 @@ const KYCUpload: React.FC<KYCUploadProps> = ({ userRole }) => {
   };
 
   const fetchDocuments = async () => {
-    const { data, error } = await supabase
-      .from('kyc_documents')
-      .select('*')
-      .eq('user_id', supabase.auth.getUser()?.data.user?.id);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
 
-    if (!error && data) {
-      setDocuments(data);
+      const { data, error } = await supabase
+        .from('kyc_documents')
+        .select('*')
+        .eq('user_id', user.id);
+
+      if (!error && data) {
+        setDocuments(data);
+      }
+    } catch (error) {
+      console.error('Error fetching documents:', error);
     }
   };
 
@@ -167,7 +177,7 @@ const KYCUpload: React.FC<KYCUploadProps> = ({ userRole }) => {
               <div className="flex items-center space-x-3">
                 {getStatusIcon(status)}
                 <div>
-                  <p className="font-medium">{documentLabels[docType]}</p>
+                  <p className="font-medium">{documentLabels[docType as keyof typeof documentLabels]}</p>
                   <p className="text-sm text-muted-foreground">
                     {status === 'not_uploaded' ? 'Required document' : `Status: ${status}`}
                   </p>
