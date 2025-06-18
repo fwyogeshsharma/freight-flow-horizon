@@ -14,6 +14,11 @@ import Loads from "./pages/Loads";
 import Tracking from "./pages/Tracking";
 import Profile from "./pages/Profile";
 import DriverApp from "./pages/DriverApp";
+import Wallet from "./pages/Wallet";
+import Invoices from "./pages/Invoices";
+import Commissions from "./pages/Commissions";
+import BankAccounts from "./pages/BankAccounts";
+import PaymentGateway from "./pages/PaymentGateway";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -46,6 +51,31 @@ const App = () => (
             <Route path="/tracking" element={
               <ProtectedRoute>
                 <Tracking />
+              </ProtectedRoute>
+            } />
+            <Route path="/wallet" element={
+              <ProtectedRoute>
+                <Wallet />
+              </ProtectedRoute>
+            } />
+            <Route path="/invoices" element={
+              <ProtectedRoute>
+                <Invoices />
+              </ProtectedRoute>
+            } />
+            <Route path="/commissions" element={
+              <ProtectedRoute>
+                <Commissions />
+              </ProtectedRoute>
+            } />
+            <Route path="/bank-accounts" element={
+              <ProtectedRoute>
+                <BankAccounts />
+              </ProtectedRoute>
+            } />
+            <Route path="/payment" element={
+              <ProtectedRoute>
+                <PaymentGateway />
               </ProtectedRoute>
             } />
             <Route path="/profile" element={

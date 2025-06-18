@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Users, Shield, Settings, FileText } from "lucide-react";
+import { Users, Shield, Settings, FileText, Wallet, CreditCard, DollarSign, Building2 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Profile = () => {
   return (
@@ -81,6 +82,42 @@ const Profile = () => {
                     </div>
                   ))}
                 </div>
+              </CardContent>
+            </Card>
+
+            {/* Payment Features */}
+            <Card className="mt-6">
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <CreditCard className="h-5 w-5 mr-2" />
+                  Payment & Financial Services
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="grid grid-cols-2 gap-4">
+                <Link to="/wallet">
+                  <Button variant="outline" className="w-full justify-start">
+                    <Wallet className="h-4 w-4 mr-2" />
+                    Wallet
+                  </Button>
+                </Link>
+                <Link to="/invoices">
+                  <Button variant="outline" className="w-full justify-start">
+                    <FileText className="h-4 w-4 mr-2" />
+                    Invoices
+                  </Button>
+                </Link>
+                <Link to="/commissions">
+                  <Button variant="outline" className="w-full justify-start">
+                    <DollarSign className="h-4 w-4 mr-2" />
+                    Commissions
+                  </Button>
+                </Link>
+                <Link to="/bank-accounts">
+                  <Button variant="outline" className="w-full justify-start">
+                    <Building2 className="h-4 w-4 mr-2" />
+                    Bank Accounts
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
           </div>
