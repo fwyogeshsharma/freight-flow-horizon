@@ -9,6 +9,185 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      documents: {
+        Row: {
+          document_type: string
+          driver_id: string
+          file_name: string
+          file_url: string
+          id: string
+          notes: string | null
+          trip_id: string | null
+          truck_id: string | null
+          uploaded_at: string | null
+        }
+        Insert: {
+          document_type: string
+          driver_id: string
+          file_name: string
+          file_url: string
+          id?: string
+          notes?: string | null
+          trip_id?: string | null
+          truck_id?: string | null
+          uploaded_at?: string | null
+        }
+        Update: {
+          document_type?: string
+          driver_id?: string
+          file_name?: string
+          file_url?: string
+          id?: string
+          notes?: string | null
+          trip_id?: string | null
+          truck_id?: string | null
+          uploaded_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "documents_trip_id_fkey"
+            columns: ["trip_id"]
+            isOneToOne: false
+            referencedRelation: "trips"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      emergency_alerts: {
+        Row: {
+          acknowledged_at: string | null
+          alert_type: string
+          created_at: string | null
+          driver_id: string
+          id: string
+          latitude: number | null
+          longitude: number | null
+          message: string | null
+          resolved_at: string | null
+          status: string
+          trip_id: string | null
+        }
+        Insert: {
+          acknowledged_at?: string | null
+          alert_type?: string
+          created_at?: string | null
+          driver_id: string
+          id?: string
+          latitude?: number | null
+          longitude?: number | null
+          message?: string | null
+          resolved_at?: string | null
+          status?: string
+          trip_id?: string | null
+        }
+        Update: {
+          acknowledged_at?: string | null
+          alert_type?: string
+          created_at?: string | null
+          driver_id?: string
+          id?: string
+          latitude?: number | null
+          longitude?: number | null
+          message?: string | null
+          resolved_at?: string | null
+          status?: string
+          trip_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "emergency_alerts_trip_id_fkey"
+            columns: ["trip_id"]
+            isOneToOne: false
+            referencedRelation: "trips"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      fuel_logs: {
+        Row: {
+          driver_id: string
+          fuel_amount: number
+          fuel_cost: number
+          id: string
+          location: string | null
+          logged_at: string | null
+          odometer_reading: number | null
+          receipt_url: string | null
+          trip_id: string | null
+          truck_id: string
+        }
+        Insert: {
+          driver_id: string
+          fuel_amount: number
+          fuel_cost: number
+          id?: string
+          location?: string | null
+          logged_at?: string | null
+          odometer_reading?: number | null
+          receipt_url?: string | null
+          trip_id?: string | null
+          truck_id: string
+        }
+        Update: {
+          driver_id?: string
+          fuel_amount?: number
+          fuel_cost?: number
+          id?: string
+          location?: string | null
+          logged_at?: string | null
+          odometer_reading?: number | null
+          receipt_url?: string | null
+          trip_id?: string | null
+          truck_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fuel_logs_trip_id_fkey"
+            columns: ["trip_id"]
+            isOneToOne: false
+            referencedRelation: "trips"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      messages: {
+        Row: {
+          id: string
+          is_read: boolean | null
+          message: string
+          recipient_id: string
+          sender_id: string
+          sent_at: string | null
+          trip_id: string | null
+        }
+        Insert: {
+          id?: string
+          is_read?: boolean | null
+          message: string
+          recipient_id: string
+          sender_id: string
+          sent_at?: string | null
+          trip_id?: string | null
+        }
+        Update: {
+          id?: string
+          is_read?: boolean | null
+          message?: string
+          recipient_id?: string
+          sender_id?: string
+          sent_at?: string | null
+          trip_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_trip_id_fkey"
+            columns: ["trip_id"]
+            isOneToOne: false
+            referencedRelation: "trips"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -33,6 +212,131 @@ export type Database = {
           id?: string
           updated_at?: string | null
           username?: string | null
+        }
+        Relationships: []
+      }
+      trip_tracking: {
+        Row: {
+          heading: number | null
+          id: string
+          latitude: number
+          longitude: number
+          recorded_at: string | null
+          speed: number | null
+          trip_id: string
+        }
+        Insert: {
+          heading?: number | null
+          id?: string
+          latitude: number
+          longitude: number
+          recorded_at?: string | null
+          speed?: number | null
+          trip_id: string
+        }
+        Update: {
+          heading?: number | null
+          id?: string
+          latitude?: number
+          longitude?: number
+          recorded_at?: string | null
+          speed?: number | null
+          trip_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "trip_tracking_trip_id_fkey"
+            columns: ["trip_id"]
+            isOneToOne: false
+            referencedRelation: "trips"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      trips: {
+        Row: {
+          completed_at: string | null
+          created_at: string | null
+          destination: string
+          distance_km: number | null
+          driver_id: string
+          fuel_consumed: number | null
+          id: string
+          load_id: string
+          origin: string
+          paused_at: string | null
+          started_at: string | null
+          status: string
+          truck_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string | null
+          destination: string
+          distance_km?: number | null
+          driver_id: string
+          fuel_consumed?: number | null
+          id?: string
+          load_id: string
+          origin: string
+          paused_at?: string | null
+          started_at?: string | null
+          status?: string
+          truck_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string | null
+          destination?: string
+          distance_km?: number | null
+          driver_id?: string
+          fuel_consumed?: number | null
+          id?: string
+          load_id?: string
+          origin?: string
+          paused_at?: string | null
+          started_at?: string | null
+          status?: string
+          truck_id?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      vehicle_inspections: {
+        Row: {
+          checklist_data: Json
+          driver_id: string
+          id: string
+          images: Json | null
+          inspected_at: string | null
+          inspection_type: string
+          notes: string | null
+          status: string
+          truck_id: string
+        }
+        Insert: {
+          checklist_data: Json
+          driver_id: string
+          id?: string
+          images?: Json | null
+          inspected_at?: string | null
+          inspection_type: string
+          notes?: string | null
+          status: string
+          truck_id: string
+        }
+        Update: {
+          checklist_data?: Json
+          driver_id?: string
+          id?: string
+          images?: Json | null
+          inspected_at?: string | null
+          inspection_type?: string
+          notes?: string | null
+          status?: string
+          truck_id?: string
         }
         Relationships: []
       }

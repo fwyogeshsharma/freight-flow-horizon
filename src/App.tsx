@@ -13,6 +13,7 @@ import Fleet from "./pages/Fleet";
 import Loads from "./pages/Loads";
 import Tracking from "./pages/Tracking";
 import Profile from "./pages/Profile";
+import DriverApp from "./pages/DriverApp";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -50,6 +51,11 @@ const App = () => (
             <Route path="/profile" element={
               <ProtectedRoute>
                 <Profile />
+              </ProtectedRoute>
+            } />
+            <Route path="/driver" element={
+              <ProtectedRoute>
+                <DriverApp />
               </ProtectedRoute>
             } />
             <Route path="*" element={<NotFound />} />

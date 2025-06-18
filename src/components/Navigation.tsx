@@ -8,7 +8,7 @@ import {
   DropdownMenuSeparator, 
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
-import { Truck, MapPin, Users, FileText, LogOut, User } from "lucide-react";
+import { Truck, MapPin, Users, FileText, LogOut, User, Car } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -21,6 +21,7 @@ const Navigation = () => {
     { path: "/loads", icon: FileText, label: "Loads" },
     { path: "/fleet", icon: Truck, label: "Fleet" },
     { path: "/tracking", icon: MapPin, label: "Tracking" },
+    { path: "/driver", icon: Car, label: "Driver App" },
     { path: "/profile", icon: Users, label: "Profile" },
   ];
 
