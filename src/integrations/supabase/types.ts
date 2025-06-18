@@ -9,6 +9,118 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      access_logs: {
+        Row: {
+          action: string
+          id: string
+          ip_address: string | null
+          resource_id: string | null
+          resource_type: string | null
+          timestamp: string | null
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          action: string
+          id?: string
+          ip_address?: string | null
+          resource_id?: string | null
+          resource_type?: string | null
+          timestamp?: string | null
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          action?: string
+          id?: string
+          ip_address?: string | null
+          resource_id?: string | null
+          resource_type?: string | null
+          timestamp?: string | null
+          user_agent?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "access_logs_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bids: {
+        Row: {
+          bid_amount: number
+          comments: string | null
+          delivery_commitment: string | null
+          fleet_owner_id: string
+          id: string
+          load_id: string
+          proposed_driver_id: string
+          proposed_truck_id: string
+          responded_at: string | null
+          status: string | null
+          submitted_at: string | null
+        }
+        Insert: {
+          bid_amount: number
+          comments?: string | null
+          delivery_commitment?: string | null
+          fleet_owner_id: string
+          id?: string
+          load_id: string
+          proposed_driver_id: string
+          proposed_truck_id: string
+          responded_at?: string | null
+          status?: string | null
+          submitted_at?: string | null
+        }
+        Update: {
+          bid_amount?: number
+          comments?: string | null
+          delivery_commitment?: string | null
+          fleet_owner_id?: string
+          id?: string
+          load_id?: string
+          proposed_driver_id?: string
+          proposed_truck_id?: string
+          responded_at?: string | null
+          status?: string | null
+          submitted_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bids_fleet_owner_id_fkey"
+            columns: ["fleet_owner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bids_load_id_fkey"
+            columns: ["load_id"]
+            isOneToOne: false
+            referencedRelation: "loads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bids_proposed_driver_id_fkey"
+            columns: ["proposed_driver_id"]
+            isOneToOne: false
+            referencedRelation: "drivers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bids_proposed_truck_id_fkey"
+            columns: ["proposed_truck_id"]
+            isOneToOne: false
+            referencedRelation: "trucks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       documents: {
         Row: {
           document_type: string
@@ -49,6 +161,72 @@ export type Database = {
             columns: ["trip_id"]
             isOneToOne: false
             referencedRelation: "trips"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      drivers: {
+        Row: {
+          created_at: string | null
+          emergency_contact_name: string | null
+          emergency_contact_phone: string | null
+          experience_years: number | null
+          fleet_owner_id: string
+          id: string
+          license_expiry: string | null
+          license_number: string
+          license_type: string
+          rating: number | null
+          status: string | null
+          total_trips: number | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          emergency_contact_name?: string | null
+          emergency_contact_phone?: string | null
+          experience_years?: number | null
+          fleet_owner_id: string
+          id?: string
+          license_expiry?: string | null
+          license_number: string
+          license_type: string
+          rating?: number | null
+          status?: string | null
+          total_trips?: number | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          emergency_contact_name?: string | null
+          emergency_contact_phone?: string | null
+          experience_years?: number | null
+          fleet_owner_id?: string
+          id?: string
+          license_expiry?: string | null
+          license_number?: string
+          license_type?: string
+          rating?: number | null
+          status?: string | null
+          total_trips?: number | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "drivers_fleet_owner_id_fkey"
+            columns: ["fleet_owner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "drivers_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -150,6 +328,177 @@ export type Database = {
           },
         ]
       }
+      kyc_documents: {
+        Row: {
+          document_number: string | null
+          document_type: Database["public"]["Enums"]["document_type"]
+          file_name: string
+          file_url: string
+          id: string
+          rejection_reason: string | null
+          status: Database["public"]["Enums"]["kyc_status"] | null
+          uploaded_at: string | null
+          user_id: string
+          verified_at: string | null
+          verified_by: string | null
+        }
+        Insert: {
+          document_number?: string | null
+          document_type: Database["public"]["Enums"]["document_type"]
+          file_name: string
+          file_url: string
+          id?: string
+          rejection_reason?: string | null
+          status?: Database["public"]["Enums"]["kyc_status"] | null
+          uploaded_at?: string | null
+          user_id: string
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Update: {
+          document_number?: string | null
+          document_type?: Database["public"]["Enums"]["document_type"]
+          file_name?: string
+          file_url?: string
+          id?: string
+          rejection_reason?: string | null
+          status?: Database["public"]["Enums"]["kyc_status"] | null
+          uploaded_at?: string | null
+          user_id?: string
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kyc_documents_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kyc_documents_verified_by_fkey"
+            columns: ["verified_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      loads: {
+        Row: {
+          assigned_driver_id: string | null
+          assigned_to_fleet: string | null
+          assigned_truck_id: string | null
+          bidding_enabled: boolean | null
+          bidding_end_time: string | null
+          created_at: string | null
+          delivery_date: string | null
+          drop_address: string
+          drop_location: string
+          factory_owner_id: string
+          id: string
+          load_number: string
+          material_type: string
+          organization_id: string | null
+          pickup_address: string
+          pickup_date: string
+          pickup_location: string
+          price_quoted: number | null
+          special_instructions: string | null
+          status: string | null
+          truck_type_required: string
+          updated_at: string | null
+          weight_tons: number
+        }
+        Insert: {
+          assigned_driver_id?: string | null
+          assigned_to_fleet?: string | null
+          assigned_truck_id?: string | null
+          bidding_enabled?: boolean | null
+          bidding_end_time?: string | null
+          created_at?: string | null
+          delivery_date?: string | null
+          drop_address: string
+          drop_location: string
+          factory_owner_id: string
+          id?: string
+          load_number: string
+          material_type: string
+          organization_id?: string | null
+          pickup_address: string
+          pickup_date: string
+          pickup_location: string
+          price_quoted?: number | null
+          special_instructions?: string | null
+          status?: string | null
+          truck_type_required: string
+          updated_at?: string | null
+          weight_tons: number
+        }
+        Update: {
+          assigned_driver_id?: string | null
+          assigned_to_fleet?: string | null
+          assigned_truck_id?: string | null
+          bidding_enabled?: boolean | null
+          bidding_end_time?: string | null
+          created_at?: string | null
+          delivery_date?: string | null
+          drop_address?: string
+          drop_location?: string
+          factory_owner_id?: string
+          id?: string
+          load_number?: string
+          material_type?: string
+          organization_id?: string | null
+          pickup_address?: string
+          pickup_date?: string
+          pickup_location?: string
+          price_quoted?: number | null
+          special_instructions?: string | null
+          status?: string | null
+          truck_type_required?: string
+          updated_at?: string | null
+          weight_tons?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "loads_assigned_driver_id_fkey"
+            columns: ["assigned_driver_id"]
+            isOneToOne: false
+            referencedRelation: "drivers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loads_assigned_to_fleet_fkey"
+            columns: ["assigned_to_fleet"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loads_assigned_truck_id_fkey"
+            columns: ["assigned_truck_id"]
+            isOneToOne: false
+            referencedRelation: "trucks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loads_factory_owner_id_fkey"
+            columns: ["factory_owner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loads_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       messages: {
         Row: {
           id: string
@@ -188,30 +537,125 @@ export type Database = {
           },
         ]
       }
-      profiles: {
+      organizations: {
         Row: {
-          avatar_url: string | null
+          address: string
+          city: string
           created_at: string | null
-          full_name: string | null
+          email: string | null
+          gst_number: string | null
           id: string
+          kyc_status: Database["public"]["Enums"]["kyc_status"] | null
+          name: string
+          owner_id: string
+          phone: string | null
+          pin_code: string
+          registration_number: string | null
+          state: string
+          type: string
           updated_at: string | null
-          username: string | null
         }
         Insert: {
-          avatar_url?: string | null
+          address: string
+          city: string
           created_at?: string | null
-          full_name?: string | null
-          id: string
+          email?: string | null
+          gst_number?: string | null
+          id?: string
+          kyc_status?: Database["public"]["Enums"]["kyc_status"] | null
+          name: string
+          owner_id: string
+          phone?: string | null
+          pin_code: string
+          registration_number?: string | null
+          state: string
+          type: string
           updated_at?: string | null
-          username?: string | null
         }
         Update: {
+          address?: string
+          city?: string
+          created_at?: string | null
+          email?: string | null
+          gst_number?: string | null
+          id?: string
+          kyc_status?: Database["public"]["Enums"]["kyc_status"] | null
+          name?: string
+          owner_id?: string
+          phone?: string | null
+          pin_code?: string
+          registration_number?: string | null
+          state?: string
+          type?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "organizations_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          address: string | null
+          avatar_url: string | null
+          city: string | null
+          company_name: string | null
+          created_at: string | null
+          full_name: string | null
+          gst_number: string | null
+          id: string
+          kyc_status: Database["public"]["Enums"]["kyc_status"] | null
+          phone_number: string | null
+          pin_code: string | null
+          rejected_reason: string | null
+          role: Database["public"]["Enums"]["user_role"] | null
+          state: string | null
+          updated_at: string | null
+          username: string | null
+          verified_at: string | null
+        }
+        Insert: {
+          address?: string | null
           avatar_url?: string | null
+          city?: string | null
+          company_name?: string | null
           created_at?: string | null
           full_name?: string | null
-          id?: string
+          gst_number?: string | null
+          id: string
+          kyc_status?: Database["public"]["Enums"]["kyc_status"] | null
+          phone_number?: string | null
+          pin_code?: string | null
+          rejected_reason?: string | null
+          role?: Database["public"]["Enums"]["user_role"] | null
+          state?: string | null
           updated_at?: string | null
           username?: string | null
+          verified_at?: string | null
+        }
+        Update: {
+          address?: string | null
+          avatar_url?: string | null
+          city?: string | null
+          company_name?: string | null
+          created_at?: string | null
+          full_name?: string | null
+          gst_number?: string | null
+          id?: string
+          kyc_status?: Database["public"]["Enums"]["kyc_status"] | null
+          phone_number?: string | null
+          pin_code?: string | null
+          rejected_reason?: string | null
+          role?: Database["public"]["Enums"]["user_role"] | null
+          state?: string | null
+          updated_at?: string | null
+          username?: string | null
+          verified_at?: string | null
         }
         Relationships: []
       }
@@ -304,6 +748,78 @@ export type Database = {
         }
         Relationships: []
       }
+      trucks: {
+        Row: {
+          capacity_tons: number
+          created_at: string | null
+          current_location: string | null
+          fitness_expiry: string | null
+          fleet_owner_id: string
+          id: string
+          insurance_expiry: string | null
+          model: string | null
+          organization_id: string | null
+          permit_expiry: string | null
+          rc_number: string | null
+          status: string | null
+          truck_number: string
+          truck_type: string
+          updated_at: string | null
+          year: number | null
+        }
+        Insert: {
+          capacity_tons: number
+          created_at?: string | null
+          current_location?: string | null
+          fitness_expiry?: string | null
+          fleet_owner_id: string
+          id?: string
+          insurance_expiry?: string | null
+          model?: string | null
+          organization_id?: string | null
+          permit_expiry?: string | null
+          rc_number?: string | null
+          status?: string | null
+          truck_number: string
+          truck_type: string
+          updated_at?: string | null
+          year?: number | null
+        }
+        Update: {
+          capacity_tons?: number
+          created_at?: string | null
+          current_location?: string | null
+          fitness_expiry?: string | null
+          fleet_owner_id?: string
+          id?: string
+          insurance_expiry?: string | null
+          model?: string | null
+          organization_id?: string | null
+          permit_expiry?: string | null
+          rc_number?: string | null
+          status?: string | null
+          truck_number?: string
+          truck_type?: string
+          updated_at?: string | null
+          year?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "trucks_fleet_owner_id_fkey"
+            columns: ["fleet_owner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "trucks_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       vehicle_inspections: {
         Row: {
           checklist_data: Json
@@ -345,10 +861,40 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _user_id: string
+          _role: Database["public"]["Enums"]["user_role"]
+        }
+        Returns: boolean
+      }
+      is_super_admin: {
+        Args: { _user_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      document_type:
+        | "pan_card"
+        | "aadhaar_card"
+        | "driving_license"
+        | "vehicle_rc"
+        | "insurance_certificate"
+        | "permit"
+        | "gst_certificate"
+        | "company_registration"
+        | "bank_proof"
+        | "address_proof"
+        | "factory_verification"
+        | "police_verification"
+      kyc_status: "pending" | "verified" | "rejected" | "suspended"
+      user_role:
+        | "super_admin"
+        | "fleet_owner"
+        | "factory_owner"
+        | "transport_agent"
+        | "driver"
+        | "consignee"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -463,6 +1009,30 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      document_type: [
+        "pan_card",
+        "aadhaar_card",
+        "driving_license",
+        "vehicle_rc",
+        "insurance_certificate",
+        "permit",
+        "gst_certificate",
+        "company_registration",
+        "bank_proof",
+        "address_proof",
+        "factory_verification",
+        "police_verification",
+      ],
+      kyc_status: ["pending", "verified", "rejected", "suspended"],
+      user_role: [
+        "super_admin",
+        "fleet_owner",
+        "factory_owner",
+        "transport_agent",
+        "driver",
+        "consignee",
+      ],
+    },
   },
 } as const
