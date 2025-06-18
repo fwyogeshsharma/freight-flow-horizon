@@ -1,10 +1,20 @@
 
 import { Button } from "@/components/ui/button";
-import { Truck, MapPin, Users, FileText, Settings } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuSeparator, 
+  DropdownMenuTrigger 
+} from "@/components/ui/dropdown-menu";
+import { Truck, MapPin, Users, FileText, LogOut, User } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Navigation = () => {
   const location = useLocation();
+  const { user, signOut } = useAuth();
   
   const navItems = [
     { path: "/dashboard", icon: MapPin, label: "Dashboard" },
@@ -13,6 +23,14 @@ const Navigation = () => {
     { path: "/tracking", icon: MapPin, label: "Tracking" },
     { path: "/profile", icon: Users, label: "Profile" },
   ];
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
+
+  const getUserInitials = (email: string) => {
+    return email.split('@')[0].substring(0, 2).toUpperCase();
+  };
 
   return (
     <nav className="bg-white shadow-lg border-b">
@@ -41,6 +59,32 @@ const Navigation = () => {
                 </Button>
               </Link>
             ))}
+            
+            {user && (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src={user.user_metadata?.avatar_url} />
+                      <AvatarFallback>
+                        {getUserInitials(user.email || '')}
+                      </AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56" align="end" forceMount>
+                  <DropdownMenuItem disabled>
+                    <User className="mr-2 h-4 w-4" />
+                    <span>{user.email}</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleSignOut}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Log out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
           </div>
         </div>
       </div>
