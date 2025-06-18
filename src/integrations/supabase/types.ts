@@ -50,6 +50,59 @@ export type Database = {
           },
         ]
       }
+      bank_accounts: {
+        Row: {
+          account_holder_name: string
+          account_number: string
+          account_type: string | null
+          bank_name: string
+          branch_name: string | null
+          created_at: string | null
+          id: string
+          ifsc_code: string
+          is_primary: boolean
+          is_verified: boolean
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          account_holder_name: string
+          account_number: string
+          account_type?: string | null
+          bank_name: string
+          branch_name?: string | null
+          created_at?: string | null
+          id?: string
+          ifsc_code: string
+          is_primary?: boolean
+          is_verified?: boolean
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          account_holder_name?: string
+          account_number?: string
+          account_type?: string | null
+          bank_name?: string
+          branch_name?: string | null
+          created_at?: string | null
+          id?: string
+          ifsc_code?: string
+          is_primary?: boolean
+          is_verified?: boolean
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bank_accounts_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       bids: {
         Row: {
           bid_amount: number
@@ -117,6 +170,56 @@ export type Database = {
             columns: ["proposed_truck_id"]
             isOneToOne: false
             referencedRelation: "trucks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      commission_rules: {
+        Row: {
+          commission_type: string
+          created_at: string | null
+          created_by: string | null
+          id: string
+          is_active: boolean
+          max_amount: number | null
+          min_amount: number | null
+          rule_name: string
+          updated_at: string | null
+          user_role: Database["public"]["Enums"]["user_role"]
+          value: number
+        }
+        Insert: {
+          commission_type: string
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          is_active?: boolean
+          max_amount?: number | null
+          min_amount?: number | null
+          rule_name: string
+          updated_at?: string | null
+          user_role: Database["public"]["Enums"]["user_role"]
+          value: number
+        }
+        Update: {
+          commission_type?: string
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          is_active?: boolean
+          max_amount?: number | null
+          min_amount?: number | null
+          rule_name?: string
+          updated_at?: string | null
+          user_role?: Database["public"]["Enums"]["user_role"]
+          value?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "commission_rules_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -281,6 +384,66 @@ export type Database = {
           },
         ]
       }
+      fuel_advances: {
+        Row: {
+          amount: number
+          approved_at: string | null
+          approved_by: string
+          created_at: string | null
+          driver_id: string
+          id: string
+          notes: string | null
+          purpose: string
+          receipt_url: string | null
+          status: Database["public"]["Enums"]["payment_status"]
+          trip_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          amount: number
+          approved_at?: string | null
+          approved_by: string
+          created_at?: string | null
+          driver_id: string
+          id?: string
+          notes?: string | null
+          purpose?: string
+          receipt_url?: string | null
+          status?: Database["public"]["Enums"]["payment_status"]
+          trip_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          amount?: number
+          approved_at?: string | null
+          approved_by?: string
+          created_at?: string | null
+          driver_id?: string
+          id?: string
+          notes?: string | null
+          purpose?: string
+          receipt_url?: string | null
+          status?: Database["public"]["Enums"]["payment_status"]
+          trip_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fuel_advances_approved_by_fkey"
+            columns: ["approved_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fuel_advances_driver_id_fkey"
+            columns: ["driver_id"]
+            isOneToOne: false
+            referencedRelation: "drivers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       fuel_logs: {
         Row: {
           driver_id: string
@@ -324,6 +487,132 @@ export type Database = {
             columns: ["trip_id"]
             isOneToOne: false
             referencedRelation: "trips"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      invoices: {
+        Row: {
+          agent_commission: number
+          base_amount: number
+          created_at: string | null
+          driver_id: string | null
+          drop_location: string
+          due_date: string | null
+          factory_owner_id: string
+          fleet_owner_id: string
+          id: string
+          invoice_date: string
+          invoice_number: string
+          load_id: string
+          material_type: string
+          notes: string | null
+          paid_at: string | null
+          payment_gateway_id: string | null
+          payment_method: string | null
+          payment_status: Database["public"]["Enums"]["invoice_status"]
+          pickup_location: string
+          platform_commission: number
+          tax_amount: number
+          terms_conditions: string | null
+          total_amount: number
+          trip_id: string | null
+          truck_id: string | null
+          updated_at: string | null
+          weight_tons: number
+        }
+        Insert: {
+          agent_commission?: number
+          base_amount: number
+          created_at?: string | null
+          driver_id?: string | null
+          drop_location: string
+          due_date?: string | null
+          factory_owner_id: string
+          fleet_owner_id: string
+          id?: string
+          invoice_date?: string
+          invoice_number: string
+          load_id: string
+          material_type: string
+          notes?: string | null
+          paid_at?: string | null
+          payment_gateway_id?: string | null
+          payment_method?: string | null
+          payment_status?: Database["public"]["Enums"]["invoice_status"]
+          pickup_location: string
+          platform_commission?: number
+          tax_amount?: number
+          terms_conditions?: string | null
+          total_amount: number
+          trip_id?: string | null
+          truck_id?: string | null
+          updated_at?: string | null
+          weight_tons: number
+        }
+        Update: {
+          agent_commission?: number
+          base_amount?: number
+          created_at?: string | null
+          driver_id?: string | null
+          drop_location?: string
+          due_date?: string | null
+          factory_owner_id?: string
+          fleet_owner_id?: string
+          id?: string
+          invoice_date?: string
+          invoice_number?: string
+          load_id?: string
+          material_type?: string
+          notes?: string | null
+          paid_at?: string | null
+          payment_gateway_id?: string | null
+          payment_method?: string | null
+          payment_status?: Database["public"]["Enums"]["invoice_status"]
+          pickup_location?: string
+          platform_commission?: number
+          tax_amount?: number
+          terms_conditions?: string | null
+          total_amount?: number
+          trip_id?: string | null
+          truck_id?: string | null
+          updated_at?: string | null
+          weight_tons?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoices_driver_id_fkey"
+            columns: ["driver_id"]
+            isOneToOne: false
+            referencedRelation: "drivers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_factory_owner_id_fkey"
+            columns: ["factory_owner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_fleet_owner_id_fkey"
+            columns: ["fleet_owner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_load_id_fkey"
+            columns: ["load_id"]
+            isOneToOne: false
+            referencedRelation: "loads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_truck_id_fkey"
+            columns: ["truck_id"]
+            isOneToOne: false
+            referencedRelation: "trucks"
             referencedColumns: ["id"]
           },
         ]
@@ -599,6 +888,79 @@ export type Database = {
           },
         ]
       }
+      payments: {
+        Row: {
+          amount: number
+          created_at: string | null
+          failure_reason: string | null
+          gateway_payment_id: string | null
+          gateway_response: Json | null
+          id: string
+          invoice_id: string
+          payee_id: string
+          payer_id: string
+          payment_gateway: string | null
+          payment_method: string
+          processed_at: string | null
+          status: Database["public"]["Enums"]["payment_status"]
+          updated_at: string | null
+        }
+        Insert: {
+          amount: number
+          created_at?: string | null
+          failure_reason?: string | null
+          gateway_payment_id?: string | null
+          gateway_response?: Json | null
+          id?: string
+          invoice_id: string
+          payee_id: string
+          payer_id: string
+          payment_gateway?: string | null
+          payment_method: string
+          processed_at?: string | null
+          status?: Database["public"]["Enums"]["payment_status"]
+          updated_at?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string | null
+          failure_reason?: string | null
+          gateway_payment_id?: string | null
+          gateway_response?: Json | null
+          id?: string
+          invoice_id?: string
+          payee_id?: string
+          payer_id?: string
+          payment_gateway?: string | null
+          payment_method?: string
+          processed_at?: string | null
+          status?: Database["public"]["Enums"]["payment_status"]
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_invoice_id_fkey"
+            columns: ["invoice_id"]
+            isOneToOne: false
+            referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_payee_id_fkey"
+            columns: ["payee_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_payer_id_fkey"
+            columns: ["payer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           address: string | null
@@ -856,11 +1218,199 @@ export type Database = {
         }
         Relationships: []
       }
+      wallet_transactions: {
+        Row: {
+          amount: number
+          balance_after: number
+          balance_before: number
+          created_at: string | null
+          description: string | null
+          gateway_transaction_id: string | null
+          id: string
+          metadata: Json | null
+          payment_gateway: string | null
+          reference_id: string | null
+          reference_type: string | null
+          status: Database["public"]["Enums"]["payment_status"]
+          transaction_type: Database["public"]["Enums"]["transaction_type"]
+          updated_at: string | null
+          user_id: string
+          wallet_id: string
+        }
+        Insert: {
+          amount: number
+          balance_after: number
+          balance_before: number
+          created_at?: string | null
+          description?: string | null
+          gateway_transaction_id?: string | null
+          id?: string
+          metadata?: Json | null
+          payment_gateway?: string | null
+          reference_id?: string | null
+          reference_type?: string | null
+          status?: Database["public"]["Enums"]["payment_status"]
+          transaction_type: Database["public"]["Enums"]["transaction_type"]
+          updated_at?: string | null
+          user_id: string
+          wallet_id: string
+        }
+        Update: {
+          amount?: number
+          balance_after?: number
+          balance_before?: number
+          created_at?: string | null
+          description?: string | null
+          gateway_transaction_id?: string | null
+          id?: string
+          metadata?: Json | null
+          payment_gateway?: string | null
+          reference_id?: string | null
+          reference_type?: string | null
+          status?: Database["public"]["Enums"]["payment_status"]
+          transaction_type?: Database["public"]["Enums"]["transaction_type"]
+          updated_at?: string | null
+          user_id?: string
+          wallet_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wallet_transactions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "wallet_transactions_wallet_id_fkey"
+            columns: ["wallet_id"]
+            isOneToOne: false
+            referencedRelation: "wallets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      wallets: {
+        Row: {
+          balance: number
+          created_at: string | null
+          frozen_balance: number
+          id: string
+          is_frozen: boolean
+          minimum_balance: number
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          balance?: number
+          created_at?: string | null
+          frozen_balance?: number
+          id?: string
+          is_frozen?: boolean
+          minimum_balance?: number
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          balance?: number
+          created_at?: string | null
+          frozen_balance?: number
+          id?: string
+          is_frozen?: boolean
+          minimum_balance?: number
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wallets_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      withdrawal_requests: {
+        Row: {
+          admin_notes: string | null
+          amount: number
+          bank_account_id: string
+          created_at: string | null
+          id: string
+          processed_at: string | null
+          processed_by: string | null
+          status: Database["public"]["Enums"]["payment_status"]
+          updated_at: string | null
+          user_id: string
+          wallet_id: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          amount: number
+          bank_account_id: string
+          created_at?: string | null
+          id?: string
+          processed_at?: string | null
+          processed_by?: string | null
+          status?: Database["public"]["Enums"]["payment_status"]
+          updated_at?: string | null
+          user_id: string
+          wallet_id: string
+        }
+        Update: {
+          admin_notes?: string | null
+          amount?: number
+          bank_account_id?: string
+          created_at?: string | null
+          id?: string
+          processed_at?: string | null
+          processed_by?: string | null
+          status?: Database["public"]["Enums"]["payment_status"]
+          updated_at?: string | null
+          user_id?: string
+          wallet_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "withdrawal_requests_bank_account_id_fkey"
+            columns: ["bank_account_id"]
+            isOneToOne: false
+            referencedRelation: "bank_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "withdrawal_requests_processed_by_fkey"
+            columns: ["processed_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "withdrawal_requests_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "withdrawal_requests_wallet_id_fkey"
+            columns: ["wallet_id"]
+            isOneToOne: false
+            referencedRelation: "wallets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      generate_invoice_number: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
       has_role: {
         Args: {
           _user_id: string
@@ -887,7 +1437,22 @@ export type Database = {
         | "address_proof"
         | "factory_verification"
         | "police_verification"
+      invoice_status: "draft" | "pending" | "paid" | "overdue" | "cancelled"
       kyc_status: "pending" | "verified" | "rejected" | "suspended"
+      payment_status:
+        | "pending"
+        | "processing"
+        | "completed"
+        | "failed"
+        | "refunded"
+        | "cancelled"
+      transaction_type:
+        | "credit"
+        | "debit"
+        | "commission"
+        | "refund"
+        | "withdrawal"
+        | "deposit"
       user_role:
         | "super_admin"
         | "fleet_owner"
@@ -1024,7 +1589,24 @@ export const Constants = {
         "factory_verification",
         "police_verification",
       ],
+      invoice_status: ["draft", "pending", "paid", "overdue", "cancelled"],
       kyc_status: ["pending", "verified", "rejected", "suspended"],
+      payment_status: [
+        "pending",
+        "processing",
+        "completed",
+        "failed",
+        "refunded",
+        "cancelled",
+      ],
+      transaction_type: [
+        "credit",
+        "debit",
+        "commission",
+        "refund",
+        "withdrawal",
+        "deposit",
+      ],
       user_role: [
         "super_admin",
         "fleet_owner",
