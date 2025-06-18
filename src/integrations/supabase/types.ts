@@ -384,6 +384,341 @@ export type Database = {
           },
         ]
       }
+      enhanced_drivers: {
+        Row: {
+          created_at: string | null
+          current_latitude: number | null
+          current_location: string | null
+          current_longitude: number | null
+          emergency_contact_name: string | null
+          emergency_contact_phone: string | null
+          experience_years: number | null
+          fleet_owner_id: string
+          id: string
+          license_expiry: string
+          license_number: string
+          license_type: string
+          rating: number | null
+          status: string | null
+          total_trips: number | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          current_latitude?: number | null
+          current_location?: string | null
+          current_longitude?: number | null
+          emergency_contact_name?: string | null
+          emergency_contact_phone?: string | null
+          experience_years?: number | null
+          fleet_owner_id: string
+          id?: string
+          license_expiry: string
+          license_number: string
+          license_type: string
+          rating?: number | null
+          status?: string | null
+          total_trips?: number | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          current_latitude?: number | null
+          current_location?: string | null
+          current_longitude?: number | null
+          emergency_contact_name?: string | null
+          emergency_contact_phone?: string | null
+          experience_years?: number | null
+          fleet_owner_id?: string
+          id?: string
+          license_expiry?: string
+          license_number?: string
+          license_type?: string
+          rating?: number | null
+          status?: string | null
+          total_trips?: number | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "enhanced_drivers_fleet_owner_id_fkey"
+            columns: ["fleet_owner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "enhanced_drivers_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      enhanced_loads: {
+        Row: {
+          assigned_driver_id: string | null
+          assigned_fleet_id: string | null
+          assigned_truck_id: string | null
+          axle_requirement: string | null
+          created_at: string | null
+          custom_load_type: string | null
+          delivery_deadline: string | null
+          dropoff_address: string
+          dropoff_city: string | null
+          dropoff_latitude: number | null
+          dropoff_location: string
+          dropoff_longitude: number | null
+          dropoff_pincode: string | null
+          dropoff_state: string | null
+          factory_owner_id: string
+          final_price: number | null
+          handling_sop_url: string | null
+          id: string
+          load_number: string
+          load_type: string
+          number_of_packages: number | null
+          packaging_type: string | null
+          pickup_address: string
+          pickup_city: string | null
+          pickup_date: string
+          pickup_latitude: number | null
+          pickup_location: string
+          pickup_longitude: number | null
+          pickup_pincode: string | null
+          pickup_state: string | null
+          pickup_time_end: string | null
+          pickup_time_start: string | null
+          quoted_price: number | null
+          refrigeration_needed: boolean | null
+          special_instructions: string | null
+          status: string | null
+          tanker_insulation_needed: boolean | null
+          time_flexibility_hours: number | null
+          updated_at: string | null
+          vehicle_type: string
+          volume_unit: string | null
+          volume_value: number | null
+          weight_unit: string | null
+          weight_value: number
+        }
+        Insert: {
+          assigned_driver_id?: string | null
+          assigned_fleet_id?: string | null
+          assigned_truck_id?: string | null
+          axle_requirement?: string | null
+          created_at?: string | null
+          custom_load_type?: string | null
+          delivery_deadline?: string | null
+          dropoff_address: string
+          dropoff_city?: string | null
+          dropoff_latitude?: number | null
+          dropoff_location: string
+          dropoff_longitude?: number | null
+          dropoff_pincode?: string | null
+          dropoff_state?: string | null
+          factory_owner_id: string
+          final_price?: number | null
+          handling_sop_url?: string | null
+          id?: string
+          load_number?: string
+          load_type: string
+          number_of_packages?: number | null
+          packaging_type?: string | null
+          pickup_address: string
+          pickup_city?: string | null
+          pickup_date: string
+          pickup_latitude?: number | null
+          pickup_location: string
+          pickup_longitude?: number | null
+          pickup_pincode?: string | null
+          pickup_state?: string | null
+          pickup_time_end?: string | null
+          pickup_time_start?: string | null
+          quoted_price?: number | null
+          refrigeration_needed?: boolean | null
+          special_instructions?: string | null
+          status?: string | null
+          tanker_insulation_needed?: boolean | null
+          time_flexibility_hours?: number | null
+          updated_at?: string | null
+          vehicle_type: string
+          volume_unit?: string | null
+          volume_value?: number | null
+          weight_unit?: string | null
+          weight_value: number
+        }
+        Update: {
+          assigned_driver_id?: string | null
+          assigned_fleet_id?: string | null
+          assigned_truck_id?: string | null
+          axle_requirement?: string | null
+          created_at?: string | null
+          custom_load_type?: string | null
+          delivery_deadline?: string | null
+          dropoff_address?: string
+          dropoff_city?: string | null
+          dropoff_latitude?: number | null
+          dropoff_location?: string
+          dropoff_longitude?: number | null
+          dropoff_pincode?: string | null
+          dropoff_state?: string | null
+          factory_owner_id?: string
+          final_price?: number | null
+          handling_sop_url?: string | null
+          id?: string
+          load_number?: string
+          load_type?: string
+          number_of_packages?: number | null
+          packaging_type?: string | null
+          pickup_address?: string
+          pickup_city?: string | null
+          pickup_date?: string
+          pickup_latitude?: number | null
+          pickup_location?: string
+          pickup_longitude?: number | null
+          pickup_pincode?: string | null
+          pickup_state?: string | null
+          pickup_time_end?: string | null
+          pickup_time_start?: string | null
+          quoted_price?: number | null
+          refrigeration_needed?: boolean | null
+          special_instructions?: string | null
+          status?: string | null
+          tanker_insulation_needed?: boolean | null
+          time_flexibility_hours?: number | null
+          updated_at?: string | null
+          vehicle_type?: string
+          volume_unit?: string | null
+          volume_value?: number | null
+          weight_unit?: string | null
+          weight_value?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "enhanced_loads_assigned_fleet_id_fkey"
+            columns: ["assigned_fleet_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "enhanced_loads_factory_owner_id_fkey"
+            columns: ["factory_owner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      enhanced_trucks: {
+        Row: {
+          axle_configuration: string | null
+          brand: string | null
+          chassis_number: string | null
+          created_at: string | null
+          current_latitude: number | null
+          current_location: string | null
+          current_longitude: number | null
+          fitness_expiry: string | null
+          fleet_owner_id: string
+          has_crane: boolean | null
+          has_gps: boolean | null
+          has_refrigeration: boolean | null
+          id: string
+          insurance_expiry: string | null
+          insurance_number: string | null
+          model: string | null
+          permit_expiry: string | null
+          permit_number: string | null
+          puc_expiry: string | null
+          rc_expiry: string | null
+          rc_number: string | null
+          special_features: string | null
+          status: string | null
+          truck_number: string
+          updated_at: string | null
+          vehicle_type: string
+          volume_capacity_cubic_meters: number | null
+          weight_capacity_tons: number
+          year: number | null
+        }
+        Insert: {
+          axle_configuration?: string | null
+          brand?: string | null
+          chassis_number?: string | null
+          created_at?: string | null
+          current_latitude?: number | null
+          current_location?: string | null
+          current_longitude?: number | null
+          fitness_expiry?: string | null
+          fleet_owner_id: string
+          has_crane?: boolean | null
+          has_gps?: boolean | null
+          has_refrigeration?: boolean | null
+          id?: string
+          insurance_expiry?: string | null
+          insurance_number?: string | null
+          model?: string | null
+          permit_expiry?: string | null
+          permit_number?: string | null
+          puc_expiry?: string | null
+          rc_expiry?: string | null
+          rc_number?: string | null
+          special_features?: string | null
+          status?: string | null
+          truck_number: string
+          updated_at?: string | null
+          vehicle_type: string
+          volume_capacity_cubic_meters?: number | null
+          weight_capacity_tons: number
+          year?: number | null
+        }
+        Update: {
+          axle_configuration?: string | null
+          brand?: string | null
+          chassis_number?: string | null
+          created_at?: string | null
+          current_latitude?: number | null
+          current_location?: string | null
+          current_longitude?: number | null
+          fitness_expiry?: string | null
+          fleet_owner_id?: string
+          has_crane?: boolean | null
+          has_gps?: boolean | null
+          has_refrigeration?: boolean | null
+          id?: string
+          insurance_expiry?: string | null
+          insurance_number?: string | null
+          model?: string | null
+          permit_expiry?: string | null
+          permit_number?: string | null
+          puc_expiry?: string | null
+          rc_expiry?: string | null
+          rc_number?: string | null
+          special_features?: string | null
+          status?: string | null
+          truck_number?: string
+          updated_at?: string | null
+          vehicle_type?: string
+          volume_capacity_cubic_meters?: number | null
+          weight_capacity_tons?: number
+          year?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "enhanced_trucks_fleet_owner_id_fkey"
+            columns: ["fleet_owner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       fuel_advances: {
         Row: {
           amount: number
@@ -668,6 +1003,131 @@ export type Database = {
           {
             foreignKeyName: "kyc_documents_verified_by_fkey"
             columns: ["verified_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      load_bids: {
+        Row: {
+          bid_amount: number
+          comments: string | null
+          created_at: string | null
+          estimated_delivery_time: string | null
+          estimated_pickup_time: string | null
+          fleet_owner_id: string
+          id: string
+          load_id: string
+          proposed_driver_id: string
+          proposed_truck_id: string
+          special_conditions: string | null
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          bid_amount: number
+          comments?: string | null
+          created_at?: string | null
+          estimated_delivery_time?: string | null
+          estimated_pickup_time?: string | null
+          fleet_owner_id: string
+          id?: string
+          load_id: string
+          proposed_driver_id: string
+          proposed_truck_id: string
+          special_conditions?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          bid_amount?: number
+          comments?: string | null
+          created_at?: string | null
+          estimated_delivery_time?: string | null
+          estimated_pickup_time?: string | null
+          fleet_owner_id?: string
+          id?: string
+          load_id?: string
+          proposed_driver_id?: string
+          proposed_truck_id?: string
+          special_conditions?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "load_bids_fleet_owner_id_fkey"
+            columns: ["fleet_owner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "load_bids_load_id_fkey"
+            columns: ["load_id"]
+            isOneToOne: false
+            referencedRelation: "enhanced_loads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "load_bids_proposed_driver_id_fkey"
+            columns: ["proposed_driver_id"]
+            isOneToOne: false
+            referencedRelation: "enhanced_drivers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "load_bids_proposed_truck_id_fkey"
+            columns: ["proposed_truck_id"]
+            isOneToOne: false
+            referencedRelation: "enhanced_trucks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      load_documents: {
+        Row: {
+          document_type: string
+          file_name: string
+          file_size: number | null
+          file_url: string
+          id: string
+          load_id: string
+          uploaded_at: string | null
+          uploaded_by: string
+        }
+        Insert: {
+          document_type: string
+          file_name: string
+          file_size?: number | null
+          file_url: string
+          id?: string
+          load_id: string
+          uploaded_at?: string | null
+          uploaded_by: string
+        }
+        Update: {
+          document_type?: string
+          file_name?: string
+          file_size?: number | null
+          file_url?: string
+          id?: string
+          load_id?: string
+          uploaded_at?: string | null
+          uploaded_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "load_documents_load_id_fkey"
+            columns: ["load_id"]
+            isOneToOne: false
+            referencedRelation: "enhanced_loads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "load_documents_uploaded_by_fkey"
+            columns: ["uploaded_by"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
