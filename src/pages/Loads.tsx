@@ -9,6 +9,8 @@ import { FileText, MapPin, Truck, Plus } from "lucide-react";
 import { useState } from "react";
 import PostNewLoad from "@/components/loads/PostNewLoad";
 import CarrierResponses from "@/components/loads/CarrierResponses";
+import LoadMatchingDashboard from "@/components/bidding/LoadMatchingDashboard";
+import BiddingInterface from "@/components/bidding/BiddingInterface";
 
 const Loads = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -65,10 +67,12 @@ const Loads = () => {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
             <TabsTrigger value="post-load">Post New Load</TabsTrigger>
             <TabsTrigger value="responses">Carrier Responses</TabsTrigger>
+            <TabsTrigger value="matching">Load Matching</TabsTrigger>
+            <TabsTrigger value="bidding">Bidding System</TabsTrigger>
             <TabsTrigger value="tracking">Tracking</TabsTrigger>
           </TabsList>
 
@@ -171,6 +175,14 @@ const Loads = () => {
                 </Button>
               </div>
             )}
+          </TabsContent>
+
+          <TabsContent value="matching">
+            <LoadMatchingDashboard />
+          </TabsContent>
+
+          <TabsContent value="bidding">
+            <BiddingInterface />
           </TabsContent>
 
           <TabsContent value="tracking">
