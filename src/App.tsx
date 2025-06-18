@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -20,6 +19,8 @@ import Commissions from "./pages/Commissions";
 import BankAccounts from "./pages/BankAccounts";
 import PaymentGateway from "./pages/PaymentGateway";
 import NotFound from "./pages/NotFound";
+import EnhancedLoads from "./pages/EnhancedLoads";
+import EnhancedTracking from "./pages/EnhancedTracking";
 
 const queryClient = new QueryClient();
 
@@ -48,9 +49,19 @@ const App = () => (
                 <Loads />
               </ProtectedRoute>
             } />
+            <Route path="/loads-enhanced" element={
+              <ProtectedRoute>
+                <EnhancedLoads />
+              </ProtectedRoute>
+            } />
             <Route path="/tracking" element={
               <ProtectedRoute>
                 <Tracking />
+              </ProtectedRoute>
+            } />
+            <Route path="/tracking-enhanced" element={
+              <ProtectedRoute>
+                <EnhancedTracking />
               </ProtectedRoute>
             } />
             <Route path="/wallet" element={
