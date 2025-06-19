@@ -29,11 +29,12 @@ const HeroSection = () => {
       <div className="container mx-auto px-4 pt-20 pb-16">
         <div className="text-center mb-16">
           <div className="flex justify-center mb-6">
-            <div className="p-4 bg-blue-500/10 rounded-full">
+            <div className="p-4 bg-transparent rounded-full">
               <img 
                 src="/lovable-uploads/715bec04-0085-4de6-b65b-eff7a7bbbc5c.png" 
                 alt="RollingRadius Logo" 
                 className="h-16 w-auto"
+                style={{ backgroundColor: 'transparent' }}
               />
             </div>
           </div>
@@ -59,17 +60,25 @@ const HeroSection = () => {
         {/* Feature Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
           {features.map((feature, index) => (
-            <Card key={index} className="border-2 hover:border-blue-300 transition-all duration-300 hover:shadow-lg">
-              <CardContent className="p-6">
+            <div 
+              key={index} 
+              className="group relative overflow-hidden rounded-xl bg-white/70 backdrop-blur-sm border border-blue-100 hover:border-blue-300 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/20 hover:-translate-y-1"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="relative p-6">
                 <div className="mb-4">
-                  <div className="p-3 bg-blue-500/10 rounded-lg w-fit">
-                    <feature.icon className="h-6 w-6 text-blue-600" />
+                  <div className="p-3 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl w-fit shadow-lg group-hover:shadow-blue-500/30 transition-shadow duration-300">
+                    <feature.icon className="h-6 w-6 text-white" />
                   </div>
                 </div>
-                <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
-                <p className="text-muted-foreground text-sm">{feature.description}</p>
-              </CardContent>
-            </Card>
+                <h3 className="text-lg font-semibold mb-2 text-gray-800 group-hover:text-blue-700 transition-colors duration-300">
+                  {feature.title}
+                </h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">
+                  {feature.description}
+                </p>
+              </div>
+            </div>
           ))}
         </div>
 
@@ -78,8 +87,13 @@ const HeroSection = () => {
           <h2 className="text-3xl font-bold mb-8">Built for Every Stakeholder</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {["Super Admin", "Fleet Owner", "Factory Owner", "Transport Agent", "Driver", "Consignee"].map((role, index) => (
-              <div key={index} className="p-4 bg-white/80 rounded-lg border hover:border-blue-300 transition-colors">
-                <div className="text-sm font-medium text-blue-600">{role}</div>
+              <div 
+                key={index} 
+                className="group p-4 bg-white/80 backdrop-blur-sm rounded-lg border border-blue-100 hover:border-blue-300 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 hover:-translate-y-0.5"
+              >
+                <div className="text-sm font-medium text-blue-600 group-hover:text-blue-700 transition-colors duration-300">
+                  {role}
+                </div>
               </div>
             ))}
           </div>
