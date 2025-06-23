@@ -21,7 +21,12 @@ import PaymentGateway from "./pages/PaymentGateway";
 import NotFound from "./pages/NotFound";
 import EnhancedLoads from "./pages/EnhancedLoads";
 import EnhancedTracking from "./pages/EnhancedTracking";
-import Reports from "./pages/Reports";
+import LoginPage from "@/components/login/LoginPage.tsx";
+import OTPVerification from "@/components/login/OTPVerification.tsx";
+import SignUp from "@/components/login/SignUp.tsx";
+import SignUpForm from "@/components/login/SignUpForm.tsx";
+import ResetPassword from "@/components/login/ResetPassword.tsx";
+import NewPassword from "@/components/login/NewPassword.tsx";
 
 const queryClient = new QueryClient();
 
@@ -34,77 +39,117 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/otp-verification" element={<OTPVerification />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/signup-form" element={<SignUpForm />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/new-password" element={<NewPassword />} />
             <Route path="/auth" element={<Auth />} />
-            <Route path="/dashboard" element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            } />
-            <Route path="/fleet" element={
-              <ProtectedRoute>
-                <Fleet />
-              </ProtectedRoute>
-            } />
-            <Route path="/loads" element={
-              <ProtectedRoute>
-                <Loads />
-              </ProtectedRoute>
-            } />
-            <Route path="/loads-enhanced" element={
-              <ProtectedRoute>
-                <EnhancedLoads />
-              </ProtectedRoute>
-            } />
-            <Route path="/tracking" element={
-              <ProtectedRoute>
-                <Tracking />
-              </ProtectedRoute>
-            } />
-            <Route path="/tracking-enhanced" element={
-              <ProtectedRoute>
-                <EnhancedTracking />
-              </ProtectedRoute>
-            } />
-            <Route path="/reports" element={
-              <ProtectedRoute>
-                <Reports />
-              </ProtectedRoute>
-            } />
-            <Route path="/wallet" element={
-              <ProtectedRoute>
-                <Wallet />
-              </ProtectedRoute>
-            } />
-            <Route path="/invoices" element={
-              <ProtectedRoute>
-                <Invoices />
-              </ProtectedRoute>
-            } />
-            <Route path="/commissions" element={
-              <ProtectedRoute>
-                <Commissions />
-              </ProtectedRoute>
-            } />
-            <Route path="/bank-accounts" element={
-              <ProtectedRoute>
-                <BankAccounts />
-              </ProtectedRoute>
-            } />
-            <Route path="/payment" element={
-              <ProtectedRoute>
-                <PaymentGateway />
-              </ProtectedRoute>
-            } />
-            <Route path="/profile" element={
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            } />
-            <Route path="/driver" element={
-              <ProtectedRoute>
-                <DriverApp />
-              </ProtectedRoute>
-            } />
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/fleet"
+              element={
+                <ProtectedRoute>
+                  <Fleet />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/loads"
+              element={
+                <ProtectedRoute>
+                  <Loads />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/loads-enhanced"
+              element={
+                <ProtectedRoute>
+                  <EnhancedLoads />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/tracking"
+              element={
+                <ProtectedRoute>
+                  <Tracking />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/tracking-enhanced"
+              element={
+                <ProtectedRoute>
+                  <EnhancedTracking />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/wallet"
+              element={
+                <ProtectedRoute>
+                  <Wallet />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/invoices"
+              element={
+                <ProtectedRoute>
+                  <Invoices />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/commissions"
+              element={
+                <ProtectedRoute>
+                  <Commissions />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/bank-accounts"
+              element={
+                <ProtectedRoute>
+                  <BankAccounts />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/payment"
+              element={
+                <ProtectedRoute>
+                  <PaymentGateway />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/driver"
+              element={
+                <ProtectedRoute>
+                  <DriverApp />
+                </ProtectedRoute>
+              }
+            />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
