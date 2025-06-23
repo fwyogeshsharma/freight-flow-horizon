@@ -1,11 +1,19 @@
-
 import React, { useEffect, useRef, useState } from 'react';
-import mapboxgl from 'mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { MapPin, Truck, Navigation, Clock } from "lucide-react";
+
+// Fix for default markers in React Leaflet
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+});
 
 interface TripData {
   id: string;
@@ -31,93 +39,59 @@ interface RealTimeTrackingMapProps {
   onTripSelect: (tripId: string) => void;
 }
 
+// Custom truck icon
+const createTruckIcon = (isSelected: boolean = false) => {
+  return L.divIcon({
+    html: `
+      <div class="relative">
+        <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white shadow-lg ${
+          isSelected ? 'ring-2 ring-blue-500' : ''
+        }">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+          </svg>
+        </div>
+        <div class="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-blue-400 rotate-45"></div>
+      </div>
+    `,
+    className: 'truck-marker',
+    iconSize: [32, 40],
+    iconAnchor: [16, 40],
+    popupAnchor: [0, -40],
+  });
+};
+
+// Component to handle map bounds and markers
+const MapController: React.FC<{
+  trips: TripData[];
+  selectedTrip?: string;
+  onTripSelect: (tripId: string) => void;
+}> = ({ trips, selectedTrip, onTripSelect }) => {
+  const map = useMap();
+
+  useEffect(() => {
+    if (trips.length > 0) {
+      // Create bounds to fit all markers
+      const group = new L.FeatureGroup();
+      trips.forEach(trip => {
+        const marker = L.marker([trip.currentLocation.latitude, trip.currentLocation.longitude]);
+        group.addLayer(marker);
+      });
+      
+      // Fit map to show all markers
+      map.fitBounds(group.getBounds(), { padding: [20, 20] });
+    }
+  }, [trips, map]);
+
+  return null;
+};
+
 const RealTimeTrackingMap: React.FC<RealTimeTrackingMapProps> = ({
   trips,
   selectedTrip,
   onTripSelect
 }) => {
-  const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<mapboxgl.Map | null>(null);
-  const markers = useRef<{ [key: string]: mapboxgl.Marker }>({});
-  const [mapboxToken, setMapboxToken] = useState('');
-
-  useEffect(() => {
-    // For demo purposes, using a placeholder. In production, get from Supabase secrets
-    const token = 'pk.eyJ1IjoiZGVtby11c2VyIiwiYSI6ImNscXRlc3QifQ.demo-token';
-    setMapboxToken(token);
-    
-    if (!mapContainer.current || !token) return;
-
-    mapboxgl.accessToken = token;
-    
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/streets-v12',
-      center: [77.2090, 28.6139], // Delhi center
-      zoom: 6,
-    });
-
-    map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
-
-    return () => {
-      map.current?.remove();
-    };
-  }, [mapboxToken]);
-
-  useEffect(() => {
-    if (!map.current || !trips.length) return;
-
-    // Clear existing markers
-    Object.values(markers.current).forEach(marker => marker.remove());
-    markers.current = {};
-
-    // Add markers for each trip
-    trips.forEach(trip => {
-      const el = document.createElement('div');
-      el.className = 'truck-marker';
-      el.innerHTML = `
-        <div class="relative">
-          <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white shadow-lg ${
-            selectedTrip === trip.id ? 'ring-2 ring-blue-500' : ''
-          }">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
-            </svg>
-          </div>
-          <div class="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-primary rotate-45"></div>
-        </div>
-      `;
-      
-      el.addEventListener('click', () => onTripSelect(trip.id));
-
-      const marker = new mapboxgl.Marker(el)
-        .setLngLat([trip.currentLocation.longitude, trip.currentLocation.latitude])
-        .setPopup(
-          new mapboxgl.Popup({ offset: 25 })
-            .setHTML(`
-              <div class="p-2">
-                <h3 class="font-semibold">${trip.loadId}</h3>
-                <p class="text-sm">${trip.driver}</p>
-                <p class="text-sm">${trip.truck}</p>
-                <p class="text-xs text-gray-600">${trip.currentLocation.address}</p>
-                <p class="text-xs">Speed: ${trip.speed} km/h</p>
-              </div>
-            `)
-        )
-        .addTo(map.current!);
-
-      markers.current[trip.id] = marker;
-    });
-
-    // Fit map to show all markers
-    if (trips.length > 0) {
-      const bounds = new mapboxgl.LngLatBounds();
-      trips.forEach(trip => {
-        bounds.extend([trip.currentLocation.longitude, trip.currentLocation.latitude]);
-      });
-      map.current.fitBounds(bounds, { padding: 50 });
-    }
-  }, [trips, selectedTrip, onTripSelect]);
+  const defaultPosition: [number, number] = [51.505, -0.09]; // London coordinates
 
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
@@ -184,7 +158,50 @@ const RealTimeTrackingMap: React.FC<RealTimeTrackingMapProps> = ({
             <CardTitle>Live Tracking Map</CardTitle>
           </CardHeader>
           <CardContent>
-            <div ref={mapContainer} className="h-96 w-full rounded-lg" />
+            <div className="h-96 w-full rounded-lg overflow-hidden">
+              <MapContainer 
+                center={defaultPosition} 
+                zoom={13} 
+                scrollWheelZoom={true}
+                style={{ height: '100%', width: '100%' }}
+              >
+                <TileLayer
+                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                
+                {/* Controller to handle bounds and updates */}
+                <MapController 
+                  trips={trips} 
+                  selectedTrip={selectedTrip} 
+                  onTripSelect={onTripSelect} 
+                />
+                
+                {/* Render markers for each trip */}
+                {trips.map(trip => (
+                  <Marker
+                    key={trip.id}
+                    position={[trip.currentLocation.latitude, trip.currentLocation.longitude]}
+                    icon={createTruckIcon(selectedTrip === trip.id)}
+                    eventHandlers={{
+                      click: () => onTripSelect(trip.id),
+                    }}
+                  >
+                    <Popup>
+                      <div className="p-2">
+                        <h3 className="font-semibold">{trip.loadId}</h3>
+                        <p className="text-sm">Driver: {trip.driver}</p>
+                        <p className="text-sm">Truck: {trip.truck}</p>
+                        <p className="text-xs text-gray-600">{trip.currentLocation.address}</p>
+                        <p className="text-xs">Speed: {trip.speed} km/h</p>
+                        <p className="text-xs">ETA: {trip.eta}</p>
+                        <p className="text-xs">Status: {trip.status}</p>
+                      </div>
+                    </Popup>
+                  </Marker>
+                ))}
+              </MapContainer>
+            </div>
           </CardContent>
         </Card>
       </div>

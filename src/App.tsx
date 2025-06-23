@@ -21,6 +21,7 @@ import PaymentGateway from "./pages/PaymentGateway";
 import NotFound from "./pages/NotFound";
 import EnhancedLoads from "./pages/EnhancedLoads";
 import EnhancedTracking from "./pages/EnhancedTracking";
+import Reports from "./pages/Reports";
 
 const queryClient = new QueryClient();
 
@@ -62,6 +63,11 @@ const App = () => (
             <Route path="/tracking-enhanced" element={
               <ProtectedRoute>
                 <EnhancedTracking />
+              </ProtectedRoute>
+            } />
+            <Route path="/reports" element={
+              <ProtectedRoute>
+                <Reports />
               </ProtectedRoute>
             } />
             <Route path="/wallet" element={

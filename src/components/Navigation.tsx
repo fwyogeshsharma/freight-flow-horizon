@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { 
@@ -8,7 +7,20 @@ import {
   DropdownMenuSeparator, 
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
-import { Truck, MapPin, Users, FileText, LogOut, User, Car, Wallet, CreditCard, DollarSign, Building2 } from "lucide-react";
+import { 
+  Truck, 
+  MapPin, 
+  Users, 
+  FileText, 
+  LogOut, 
+  User, 
+  Car, 
+  Wallet, 
+  CreditCard, 
+  DollarSign, 
+  Building2,
+  BarChart3
+} from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -22,10 +34,10 @@ const Navigation = () => {
     { path: "/fleet", icon: Truck, label: "Fleet" },
     { path: "/tracking", icon: MapPin, label: "Tracking" },
     { path: "/driver", icon: Car, label: "Driver App" },
-    { path: "/wallet", icon: Wallet, label: "Wallet" },
-    { path: "/invoices", icon: FileText, label: "Invoices" },
-    { path: "/commissions", icon: DollarSign, label: "Commissions" },
-    { path: "/bank-accounts", icon: Building2, label: "Bank Accounts" },
+    { path: "/reports", icon: BarChart3, label: "Reports" },
+    // { path: "/invoices", icon: FileText, label: "Invoices" },
+    // { path: "/commissions", icon: DollarSign, label: "Commissions" },
+    // { path: "/bank-accounts", icon: Building2, label: "Bank Accounts" },
     { path: "/profile", icon: Users, label: "Profile" },
   ];
 
