@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { 
   FileText, 
   Download, 
@@ -30,6 +32,8 @@ import {
 const Reports = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [dateRange, setDateRange] = useState("all");
+  const navigate = useNavigate();
 
   const reportCategories = [
     {
@@ -46,21 +50,27 @@ const Reports = () => {
           description: "Comprehensive overview of all completed and ongoing trips",
           icon: Truck,
           lastGenerated: "2 hours ago",
-          frequency: "Daily"
+          frequency: "Daily",
+          reportId: "trips-all",
+          apiEndpoint: "/api/reports/trips-all"
         },
         {
           name: "Document Report",
           description: "Document tracking and compliance reports",
           icon: FileText,
           lastGenerated: "1 day ago",
-          frequency: "Weekly"
+          frequency: "Weekly",
+          reportId: "document-tracking",
+          apiEndpoint: "/api/reports/document-tracking"
         },
         {
           name: "Route-wise Average Pricing Report",
           description: "Pricing analysis and trends by route",
           icon: TrendingUp,
           lastGenerated: "3 hours ago",
-          frequency: "Monthly"
+          frequency: "Monthly",
+          reportId: "route-pricing",
+          apiEndpoint: "/api/reports/route-pricing"
         }
       ]
     },
@@ -78,7 +88,9 @@ const Reports = () => {
           description: "Complete e-way bill generation and tracking report",
           icon: Receipt,
           lastGenerated: "4 hours ago",
-          frequency: "Daily"
+          frequency: "Daily",
+          reportId: "eway-bill",
+          apiEndpoint: "/api/reports/eway-bill"
         }
       ]
     },
@@ -96,35 +108,45 @@ const Reports = () => {
           description: "Track all POD uploads and their status",
           icon: Upload,
           lastGenerated: "1 hour ago",
-          frequency: "Real-time"
+          frequency: "Real-time",
+          reportId: "pod-upload",
+          apiEndpoint: "/api/reports/pod-upload"
         },
         {
           name: "Payment Tracking",
           description: "Monitor payment status against PODs",
           icon: CreditCard,
           lastGenerated: "2 hours ago",
-          frequency: "Daily"
+          frequency: "Daily",
+          reportId: "pod-payment",
+          apiEndpoint: "/api/reports/pod-payment"
         },
         {
           name: "Advance Due",
           description: "Outstanding advance payments report",
           icon: Clock,
           lastGenerated: "6 hours ago",
-          frequency: "Weekly"
+          frequency: "Weekly",
+          reportId: "pod-advance-due",
+          apiEndpoint: "/api/reports/pod-advance-due"
         },
         {
           name: "Balance Due",
           description: "Pending balance payments tracking",
           icon: AlertTriangle,
           lastGenerated: "5 hours ago",
-          frequency: "Daily"
+          frequency: "Daily",
+          reportId: "pod-balance-due",
+          apiEndpoint: "/api/reports/pod-balance-due"
         },
         {
           name: "Complete Payment",
           description: "Fully settled payment transactions",
           icon: CheckCircle,
           lastGenerated: "3 hours ago",
-          frequency: "Monthly"
+          frequency: "Monthly",
+          reportId: "pod-complete-payment",
+          apiEndpoint: "/api/reports/pod-complete-payment"
         }
       ]
     },
@@ -142,21 +164,27 @@ const Reports = () => {
           description: "TDS deductions categorized by consignor",
           icon: Users,
           lastGenerated: "1 day ago",
-          frequency: "Monthly"
+          frequency: "Monthly",
+          reportId: "tds-consignor",
+          apiEndpoint: "/api/reports/tds-consignor"
         },
         {
           name: "TDS Register",
           description: "Complete TDS deduction register",
           icon: FileBarChart,
           lastGenerated: "12 hours ago",
-          frequency: "Monthly"
+          frequency: "Monthly",
+          reportId: "tds-register",
+          apiEndpoint: "/api/reports/tds-register"
         },
         {
           name: "TDS of Vehicle Provider",
           description: "TDS applicable to vehicle service providers",
           icon: Truck,
           lastGenerated: "8 hours ago",
-          frequency: "Monthly"
+          frequency: "Monthly",
+          reportId: "tds-vehicle-provider",
+          apiEndpoint: "/api/reports/tds-vehicle-provider"
         }
       ]
     },
@@ -174,14 +202,18 @@ const Reports = () => {
           description: "Comprehensive payment transaction details",
           icon: DollarSign,
           lastGenerated: "30 minutes ago",
-          frequency: "Daily"
+          frequency: "Daily",
+          reportId: "payment-detailed",
+          apiEndpoint: "/api/reports/payment-detailed"
         },
         {
           name: "Payment Delay Report",
           description: "Analysis of delayed payments and trends",
           icon: Clock,
           lastGenerated: "2 hours ago",
-          frequency: "Weekly"
+          frequency: "Weekly",
+          reportId: "payment-delay",
+          apiEndpoint: "/api/reports/payment-delay"
         }
       ]
     },
@@ -199,49 +231,63 @@ const Reports = () => {
           description: "Complete invoice database and tracking",
           icon: FileText,
           lastGenerated: "1 hour ago",
-          frequency: "Daily"
+          frequency: "Daily",
+          reportId: "invoice-all",
+          apiEndpoint: "/api/reports/invoice-all"
         },
         {
           name: "Master Invoice Register",
           description: "Master invoice compilation report",
           icon: FileBarChart,
           lastGenerated: "3 hours ago",
-          frequency: "Monthly"
+          frequency: "Monthly",
+          reportId: "invoice-master",
+          apiEndpoint: "/api/reports/invoice-master"
         },
         {
           name: "Pending Invoices",
           description: "Outstanding invoice tracking",
           icon: Clock,
           lastGenerated: "45 minutes ago",
-          frequency: "Daily"
+          frequency: "Daily",
+          reportId: "invoice-pending",
+          apiEndpoint: "/api/reports/invoice-pending"
         },
         {
           name: "Late Payment Invoices",
           description: "Invoices with overdue payments",
           icon: AlertTriangle,
           lastGenerated: "2 hours ago",
-          frequency: "Weekly"
+          frequency: "Weekly",
+          reportId: "invoice-late",
+          apiEndpoint: "/api/reports/invoice-late"
         },
         {
           name: "Early Payment Invoices",
           description: "Invoices paid before due date",
           icon: CheckCircle,
           lastGenerated: "4 hours ago",
-          frequency: "Monthly"
+          frequency: "Monthly",
+          reportId: "invoice-early",
+          apiEndpoint: "/api/reports/invoice-early"
         },
         {
           name: "Client Due",
           description: "Client-wise outstanding amounts",
           icon: Users,
           lastGenerated: "1 hour ago",
-          frequency: "Daily"
+          frequency: "Daily",
+          reportId: "invoice-client-due",
+          apiEndpoint: "/api/reports/invoice-client-due"
         },
         {
           name: "Client Overdue Invoices",
           description: "Overdue invoices by client",
           icon: AlertTriangle,
           lastGenerated: "3 hours ago",
-          frequency: "Weekly"
+          frequency: "Weekly",
+          reportId: "invoice-client-overdue",
+          apiEndpoint: "/api/reports/invoice-client-overdue"
         }
       ]
     },
@@ -259,21 +305,27 @@ const Reports = () => {
           description: "Complete financial ledger and transactions",
           icon: FileBarChart,
           lastGenerated: "6 hours ago",
-          frequency: "Monthly"
+          frequency: "Monthly",
+          reportId: "financial-ledger",
+          apiEndpoint: "/api/reports/financial-ledger"
         },
         {
           name: "Income Statement",
           description: "Profit and loss statement",
           icon: TrendingUp,
           lastGenerated: "1 day ago",
-          frequency: "Monthly"
+          frequency: "Monthly",
+          reportId: "financial-income",
+          apiEndpoint: "/api/reports/financial-income"
         },
         {
           name: "Balance Sheet",
           description: "Assets, liabilities and equity statement",
           icon: PieChart,
           lastGenerated: "1 day ago",
-          frequency: "Quarterly"
+          frequency: "Quarterly",
+          reportId: "financial-balance",
+          apiEndpoint: "/api/reports/financial-balance"
         }
       ]
     },
@@ -291,42 +343,54 @@ const Reports = () => {
           description: "Performance analysis by agent",
           icon: Users,
           lastGenerated: "4 hours ago",
-          frequency: "Monthly"
+          frequency: "Monthly",
+          reportId: "admin-agent",
+          apiEndpoint: "/api/reports/admin-agent"
         },
         {
           name: "Client-wise Billing/Sales",
           description: "Client revenue and billing analysis",
           icon: DollarSign,
           lastGenerated: "2 hours ago",
-          frequency: "Monthly"
+          frequency: "Monthly",
+          reportId: "admin-client-billing",
+          apiEndpoint: "/api/reports/admin-client-billing"
         },
         {
           name: "Location-wise Client Billing Comparison",
           description: "Geographic billing performance comparison",
           icon: MapPin,
           lastGenerated: "5 hours ago",
-          frequency: "Quarterly"
+          frequency: "Quarterly",
+          reportId: "admin-location-client",
+          apiEndpoint: "/api/reports/admin-location-client"
         },
         {
           name: "Vehicle Provider Billing/Sales",
           description: "Vehicle provider revenue analysis",
           icon: Truck,
           lastGenerated: "3 hours ago",
-          frequency: "Monthly"
+          frequency: "Monthly",
+          reportId: "admin-vehicle-billing",
+          apiEndpoint: "/api/reports/admin-vehicle-billing"
         },
         {
           name: "Location-wise Vehicle Provider Billing Comparison",
           description: "Geographic vehicle provider performance",
           icon: MapPin,
           lastGenerated: "6 hours ago",
-          frequency: "Quarterly"
+          frequency: "Quarterly",
+          reportId: "admin-location-vehicle",
+          apiEndpoint: "/api/reports/admin-location-vehicle"
         },
         {
           name: "Client-wise Margin Comparison",
           description: "Profit margin analysis by client",
           icon: TrendingUp,
           lastGenerated: "4 hours ago",
-          frequency: "Monthly"
+          frequency: "Monthly",
+          reportId: "admin-client-margin",
+          apiEndpoint: "/api/reports/admin-client-margin"
         }
       ]
     }
@@ -337,11 +401,20 @@ const Reports = () => {
     ...reportCategories.map(cat => ({ id: cat.id, name: cat.title, count: cat.count }))
   ];
 
+  const dateRanges = [
+    { id: "all", name: "All Time" },
+    { id: "today", name: "Today" },
+    { id: "week", name: "This Week" },
+    { id: "month", name: "This Month" },
+    { id: "quarter", name: "This Quarter" },
+    { id: "year", name: "This Year" }
+  ];
+
   const filteredCategories = selectedCategory === "all" 
     ? reportCategories 
     : reportCategories.filter(cat => cat.id === selectedCategory);
 
-  const getFrequencyBadge = (frequency: string) => {
+  const getFrequencyBadge = (frequency) => {
     const colorMap = {
       "Real-time": "bg-green-100 text-green-800",
       "Daily": "bg-blue-100 text-blue-800", 
@@ -349,7 +422,38 @@ const Reports = () => {
       "Monthly": "bg-purple-100 text-purple-800",
       "Quarterly": "bg-orange-100 text-orange-800"
     };
-    return colorMap[frequency as keyof typeof colorMap] || "bg-gray-100 text-gray-800";
+    return colorMap[frequency] || "bg-gray-100 text-gray-800";
+  };
+
+  const handleReportClick = async (report) => {
+    try {
+      // Call the specific API endpoint for the report
+      const response = await fetch(`${report.apiEndpoint}?dateRange=${dateRange}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          // Add any necessary auth headers
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`API call failed for ${report.name}`);
+      }
+
+      const data = await response.json();
+      
+      // Navigate to report details page with data
+      navigate(`/reports/${report.reportId}`, { 
+        state: { 
+          reportData: data,
+          reportName: report.name,
+          reportDescription: report.description
+        }
+      });
+    } catch (error) {
+      console.error(`Error fetching report ${report.name}:`, error);
+      // Optionally show an error toast/notification
+    }
   };
 
   return (
@@ -357,13 +461,11 @@ const Reports = () => {
       <Navigation />
       
       <div className="container mx-auto px-4 py-8">
-        {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Reports Management</h1>
           <p className="text-muted-foreground">Generate and manage all business reports</p>
         </div>
 
-        {/* Controls */}
         <div className="mb-8 flex flex-col sm:flex-row gap-4">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -375,18 +477,24 @@ const Reports = () => {
             />
           </div>
           <div className="flex gap-2">
+            <Select value={dateRange} onValueChange={setDateRange}>
+              <SelectTrigger className="w-[180px]">
+                <Calendar className="h-4 w-4 mr-2" />
+                <SelectValue placeholder="Select date range" />
+              </SelectTrigger>
+              <SelectContent>
+                {dateRanges.map(range => (
+                  <SelectItem key={range.id} value={range.id}>{range.name}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
             <Button variant="outline" className="flex items-center gap-2">
               <Filter className="h-4 w-4" />
               Filter
             </Button>
-            <Button variant="outline" className="flex items-center gap-2">
-              <Calendar className="h-4 w-4" />
-              Date Range
-            </Button>
           </div>
         </div>
 
-        {/* Category Tabs */}
         <div className="mb-8">
           <div className="flex flex-wrap gap-2">
             {categories.map((category) => (
@@ -405,7 +513,6 @@ const Reports = () => {
           </div>
         </div>
 
-        {/* Report Categories */}
         <div className="space-y-8">
           {filteredCategories.map((category) => (
             <Card key={category.id} className={`${category.borderColor} border-l-4`}>
@@ -423,7 +530,11 @@ const Reports = () => {
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {category.reports.map((report, index) => (
-                    <Card key={index} className="hover:shadow-md transition-shadow border">
+                    <Card 
+                      key={index} 
+                      className="hover:shadow-md transition-shadow border cursor-pointer"
+                      onClick={() => handleReportClick(report)}
+                    >
                       <CardContent className="p-4">
                         <div className="flex items-start justify-between mb-3">
                           <div className="flex items-center gap-2">
@@ -444,11 +555,20 @@ const Reports = () => {
                         </div>
                         
                         <div className="flex gap-2">
-                          <Button size="sm" className="flex-1 text-xs">
+                          <Button 
+                            size="sm" 
+                            className="flex-1 text-xs" 
+                            onClick={(e) => { e.stopPropagation(); handleReportClick(report); }}
+                          >
                             <FileText className="h-3 w-3 mr-1" />
                             Generate
                           </Button>
-                          <Button size="sm" variant="outline" className="text-xs">
+                          <Button 
+                            size="sm" 
+                            variant="outline" 
+                            className="text-xs" 
+                            onClick={(e) => e.stopPropagation()}
+                          >
                             <Download className="h-3 w-3" />
                           </Button>
                         </div>
@@ -460,45 +580,12 @@ const Reports = () => {
             </Card>
           ))}
         </div>
-
-        {/* Quick Actions */}
-        <Card className="mt-8">
-          <CardHeader>
-            <CardTitle>Quick Actions</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Button className="flex items-center gap-2 h-16">
-                <Download className="h-5 w-5" />
-                <div className="text-left">
-                  <div className="font-semibold">Bulk Download</div>
-                  <div className="text-xs opacity-80">Download multiple reports</div>
-                </div>
-              </Button>
-              <Button variant="outline" className="flex items-center gap-2 h-16">
-                <Calendar className="h-5 w-5" />
-                <div className="text-left">
-                  <div className="font-semibold">Schedule Reports</div>
-                  <div className="text-xs opacity-80">Automate report generation</div>
-                </div>
-              </Button>
-              <Button variant="outline" className="flex items-center gap-2 h-16">
-                <FileBarChart className="h-5 w-5" />
-                <div className="text-left">
-                  <div className="font-semibold">Custom Report</div>
-                  <div className="text-xs opacity-80">Create custom analytics</div>
-                </div>
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
       </div>
     </div>
   );
 };
 
-// Upload icon component (since it's not in lucide-react by default)
-const Upload = ({ className }: { className?: string }) => (
+const Upload = ({ className }) => (
   <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
   </svg>
