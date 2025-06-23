@@ -233,7 +233,7 @@ const Dashboard = () => {
                   <XAxis dataKey="day" />
                   <YAxis />
                   <Tooltip 
-                    formatter={(value, name) => [
+                    formatter={(value: number, name: string) =>[
                       name === 'deliveries' ? `${value} deliveries` : `₹${(value / 1000).toFixed(0)}K`,
                       name === 'deliveries' ? 'Deliveries' : 'Revenue'
                     ]}
