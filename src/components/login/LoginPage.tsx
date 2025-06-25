@@ -94,7 +94,8 @@ const LoginPage = () => {
 
   const handleUsernameLogin = async () => {
     try {
-      const token = btoa(`${username}:${password}`);
+      const fullUsername = `91${username}`;
+      const token = btoa(`${fullUsername}:${password}`);
       const response = await fetch(
         `${baseUrl}/persons/authenticate?source=Truth%20Tracker`,
         {
@@ -110,17 +111,62 @@ const LoginPage = () => {
       const data = await response.json();
 
       if (response.status >= 200 && response.status < 300) {
-        localStorage.setItem("accessToken", data.user_record.token);
-        localStorage.setItem("userId", data.user_record._id);
         localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("phoneNumber", data.user_record.phone.number);
         localStorage.setItem(
-          "countryCode",
-          data.user_record.phone.country_phone_code
+          "currentCompanyId",
+          data.user_record.current_company
         );
-        localStorage.setItem("name", data.user_record.name);
-        localStorage.setItem("username", data.user_record.username);
+        localStorage.setItem(
+          "currentLang",
+          data.user_record.preferred_language
+        );
+        localStorage.setItem("currentUser", JSON.stringify(data.user_record));
+        localStorage.setItem(
+          "tokenDetails",
+          JSON.stringify({
+            access_token: data.user_record.token,
+            access_token_expires_in: null,
+            refresh_token: null,
+          })
+        );
 
+        // Fetch company details using current_company ID
+        const companyResponse = await fetch(
+          `${baseUrl}/companies?embedded={"identities.photos.photo":1}&where={"_id":"${data.user_record.current_company}"}&projection={"name":1,"logo":1,"public_profile_url":1,"company_roles":1,"created_by":1}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+              Authorization: `Bearer ${data.user_record.token}`,
+            },
+          }
+        );
+
+        const companyData = await companyResponse.json();
+
+        if (
+          companyResponse.status >= 200 &&
+          companyResponse.status < 300 &&
+          companyData._items &&
+          companyData._items.length > 0
+        ) {
+          const company = companyData._items[0];
+          localStorage.setItem("currentCompanyName", company.name);
+          localStorage.setItem("currentCompanyRecord", JSON.stringify(company));
+          localStorage.setItem(
+            "currentCompanyLogo",
+            company.logo || "undefined"
+          );
+        } else {
+          console.error("Failed to fetch company data:", companyData);
+          localStorage.setItem(
+            "currentCompanyName",
+            "RollingRadius Logistics Pvt. Ltd."
+          ); // Fallback
+          localStorage.setItem("currentCompanyLogo", "undefined"); // Fallback
+          localStorage.setItem("currentCompanyRecord", JSON.stringify({})); // Fallback empty object
+        }
         toast({
           title: "Success",
           description: "Login successful",
