@@ -28,6 +28,7 @@ import SignUpForm from "@/components/login/SignUpForm.tsx";
 import ResetPassword from "@/components/login/ResetPassword.tsx";
 import NewPassword from "@/components/login/NewPassword.tsx";
 import Reports from "./pages/Reports";
+import ReportDetails from "./pages/ReportDetails";
 
 const queryClient = new QueryClient();
 
@@ -68,6 +69,14 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <Reports />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/reports/:reportId"
+              element={
+                <ProtectedRoute>
+                  <ReportDetails />
                 </ProtectedRoute>
               }
             />

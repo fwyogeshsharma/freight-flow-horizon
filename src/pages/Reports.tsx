@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -30,6 +31,18 @@ import {
 const Reports = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const navigate = useNavigate();
+
+  const handleReportClick = (report) => {
+    // Navigate to report details page with report data
+    navigate(`/reports/${report.reportId}`, { 
+      state: { 
+        reportData: null, // In real app, this would be fetched from API
+        reportName: report.name,
+        reportDescription: report.description
+      }
+    });
+  };
 
   const reportCategories = [
     {
@@ -46,21 +59,24 @@ const Reports = () => {
           description: "Comprehensive overview of all completed and ongoing trips",
           icon: Truck,
           lastGenerated: "2 hours ago",
-          frequency: "Daily"
+          frequency: "Daily",
+          reportId: "trips-all"
         },
         {
           name: "Document Report",
           description: "Document tracking and compliance reports",
           icon: FileText,
           lastGenerated: "1 day ago",
-          frequency: "Weekly"
+          frequency: "Weekly",
+          reportId: "document-tracking"
         },
         {
           name: "Route-wise Average Pricing Report",
           description: "Pricing analysis and trends by route",
           icon: TrendingUp,
           lastGenerated: "3 hours ago",
-          frequency: "Monthly"
+          frequency: "Monthly",
+          reportId: "route-pricing"
         }
       ]
     },
@@ -78,7 +94,8 @@ const Reports = () => {
           description: "Complete e-way bill generation and tracking report",
           icon: Receipt,
           lastGenerated: "4 hours ago",
-          frequency: "Daily"
+          frequency: "Daily",
+          reportId: "eway-bill"
         }
       ]
     },
@@ -96,35 +113,40 @@ const Reports = () => {
           description: "Track all POD uploads and their status",
           icon: Upload,
           lastGenerated: "1 hour ago",
-          frequency: "Real-time"
+          frequency: "Real-time",
+          reportId: "pod-upload"
         },
         {
           name: "Payment Tracking",
           description: "Monitor payment status against PODs",
           icon: CreditCard,
           lastGenerated: "2 hours ago",
-          frequency: "Daily"
+          frequency: "Daily",
+          reportId: "pod-payment"
         },
         {
           name: "Advance Due",
           description: "Outstanding advance payments report",
           icon: Clock,
           lastGenerated: "6 hours ago",
-          frequency: "Weekly"
+          frequency: "Weekly",
+          reportId: "pod-advance-due"
         },
         {
           name: "Balance Due",
           description: "Pending balance payments tracking",
           icon: AlertTriangle,
           lastGenerated: "5 hours ago",
-          frequency: "Daily"
+          frequency: "Daily",
+          reportId: "pod-balance-due"
         },
         {
           name: "Complete Payment",
           description: "Fully settled payment transactions",
           icon: CheckCircle,
           lastGenerated: "3 hours ago",
-          frequency: "Monthly"
+          frequency: "Monthly",
+          reportId: "pod-complete-payment"
         }
       ]
     },
@@ -142,21 +164,24 @@ const Reports = () => {
           description: "TDS deductions categorized by consignor",
           icon: Users,
           lastGenerated: "1 day ago",
-          frequency: "Monthly"
+          frequency: "Monthly",
+          reportId: "tds-consignor"
         },
         {
           name: "TDS Register",
           description: "Complete TDS deduction register",
           icon: FileBarChart,
           lastGenerated: "12 hours ago",
-          frequency: "Monthly"
+          frequency: "Monthly",
+          reportId: "tds-register"
         },
         {
           name: "TDS of Vehicle Provider",
           description: "TDS applicable to vehicle service providers",
           icon: Truck,
           lastGenerated: "8 hours ago",
-          frequency: "Monthly"
+          frequency: "Monthly",
+          reportId: "tds-vehicle-provider"
         }
       ]
     },
@@ -174,14 +199,16 @@ const Reports = () => {
           description: "Comprehensive payment transaction details",
           icon: DollarSign,
           lastGenerated: "30 minutes ago",
-          frequency: "Daily"
+          frequency: "Daily",
+          reportId: "payment-detailed"
         },
         {
           name: "Payment Delay Report",
           description: "Analysis of delayed payments and trends",
           icon: Clock,
           lastGenerated: "2 hours ago",
-          frequency: "Weekly"
+          frequency: "Weekly",
+          reportId: "payment-delay"
         }
       ]
     },
@@ -199,49 +226,56 @@ const Reports = () => {
           description: "Complete invoice database and tracking",
           icon: FileText,
           lastGenerated: "1 hour ago",
-          frequency: "Daily"
+          frequency: "Daily",
+          reportId: "invoice-all"
         },
         {
           name: "Master Invoice Register",
           description: "Master invoice compilation report",
           icon: FileBarChart,
           lastGenerated: "3 hours ago",
-          frequency: "Monthly"
+          frequency: "Monthly",
+          reportId: "invoice-master"
         },
         {
           name: "Pending Invoices",
           description: "Outstanding invoice tracking",
           icon: Clock,
           lastGenerated: "45 minutes ago",
-          frequency: "Daily"
+          frequency: "Daily",
+          reportId: "invoice-pending"
         },
         {
           name: "Late Payment Invoices",
           description: "Invoices with overdue payments",
           icon: AlertTriangle,
           lastGenerated: "2 hours ago",
-          frequency: "Weekly"
+          frequency: "Weekly",
+          reportId: "invoice-late"
         },
         {
           name: "Early Payment Invoices",
           description: "Invoices paid before due date",
           icon: CheckCircle,
           lastGenerated: "4 hours ago",
-          frequency: "Monthly"
+          frequency: "Monthly",
+          reportId: "invoice-early"
         },
         {
           name: "Client Due",
           description: "Client-wise outstanding amounts",
           icon: Users,
           lastGenerated: "1 hour ago",
-          frequency: "Daily"
+          frequency: "Daily",
+          reportId: "invoice-client-due"
         },
         {
           name: "Client Overdue Invoices",
           description: "Overdue invoices by client",
           icon: AlertTriangle,
           lastGenerated: "3 hours ago",
-          frequency: "Weekly"
+          frequency: "Weekly",
+          reportId: "invoice-client-overdue"
         }
       ]
     },
@@ -259,21 +293,24 @@ const Reports = () => {
           description: "Complete financial ledger and transactions",
           icon: FileBarChart,
           lastGenerated: "6 hours ago",
-          frequency: "Monthly"
+          frequency: "Monthly",
+          reportId: "financial-ledger"
         },
         {
           name: "Income Statement",
           description: "Profit and loss statement",
           icon: TrendingUp,
           lastGenerated: "1 day ago",
-          frequency: "Monthly"
+          frequency: "Monthly",
+          reportId: "financial-income"
         },
         {
           name: "Balance Sheet",
           description: "Assets, liabilities and equity statement",
           icon: PieChart,
           lastGenerated: "1 day ago",
-          frequency: "Quarterly"
+          frequency: "Quarterly",
+          reportId: "financial-balance"
         }
       ]
     },
@@ -291,42 +328,48 @@ const Reports = () => {
           description: "Performance analysis by agent",
           icon: Users,
           lastGenerated: "4 hours ago",
-          frequency: "Monthly"
+          frequency: "Monthly",
+          reportId: "admin-agent"
         },
         {
           name: "Client-wise Billing/Sales",
           description: "Client revenue and billing analysis",
           icon: DollarSign,
           lastGenerated: "2 hours ago",
-          frequency: "Monthly"
+          frequency: "Monthly",
+          reportId: "admin-client-billing"
         },
         {
           name: "Location-wise Client Billing Comparison",
           description: "Geographic billing performance comparison",
           icon: MapPin,
           lastGenerated: "5 hours ago",
-          frequency: "Quarterly"
+          frequency: "Quarterly",
+          reportId: "admin-location-client"
         },
         {
           name: "Vehicle Provider Billing/Sales",
           description: "Vehicle provider revenue analysis",
           icon: Truck,
           lastGenerated: "3 hours ago",
-          frequency: "Monthly"
+          frequency: "Monthly",
+          reportId: "admin-vehicle-billing"
         },
         {
           name: "Location-wise Vehicle Provider Billing Comparison",
           description: "Geographic vehicle provider performance",
           icon: MapPin,
           lastGenerated: "6 hours ago",
-          frequency: "Quarterly"
+          frequency: "Quarterly",
+          reportId: "admin-location-vehicle"
         },
         {
           name: "Client-wise Margin Comparison",
           description: "Profit margin analysis by client",
           icon: TrendingUp,
           lastGenerated: "4 hours ago",
-          frequency: "Monthly"
+          frequency: "Monthly",
+          reportId: "admin-client-margin"
         }
       ]
     }
@@ -341,7 +384,7 @@ const Reports = () => {
     ? reportCategories 
     : reportCategories.filter(cat => cat.id === selectedCategory);
 
-  const getFrequencyBadge = (frequency: string) => {
+  const getFrequencyBadge = (frequency) => {
     const colorMap = {
       "Real-time": "bg-green-100 text-green-800",
       "Daily": "bg-blue-100 text-blue-800", 
@@ -349,7 +392,7 @@ const Reports = () => {
       "Monthly": "bg-purple-100 text-purple-800",
       "Quarterly": "bg-orange-100 text-orange-800"
     };
-    return colorMap[frequency as keyof typeof colorMap] || "bg-gray-100 text-gray-800";
+    return colorMap[frequency] || "bg-gray-100 text-gray-800";
   };
 
   return (
@@ -444,7 +487,11 @@ const Reports = () => {
                         </div>
                         
                         <div className="flex gap-2">
-                          <Button size="sm" className="flex-1 text-xs">
+                          <Button 
+                            size="sm" 
+                            className="flex-1 text-xs"
+                            onClick={() => handleReportClick(report)}
+                          >
                             <FileText className="h-3 w-3 mr-1" />
                             Generate
                           </Button>
@@ -498,7 +545,7 @@ const Reports = () => {
 };
 
 // Upload icon component (since it's not in lucide-react by default)
-const Upload = ({ className }: { className?: string }) => (
+const Upload = ({ className }) => (
   <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
   </svg>
